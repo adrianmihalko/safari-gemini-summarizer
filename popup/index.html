@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gemini Summarizer</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="highlight.css">
+  <script src="marked.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h2>Gemini Summarizer</h2>
+      <div class="header-controls">
+         <button id="theme-toggle-btn" class="icon-btn" title="Toggle Theme">🌙</button>
+         <button id="settings-toggle-btn" class="icon-btn hidden" title="Settings">⚙️</button>
+      </div>
+    </div>
+    
+    <!-- SETUP VIEW -->
+    <div id="setup-view" class="view hidden">
+      <p>Enter your Gemini API Key to get started.</p>
+      <input type="password" id="api-key-input" placeholder="Paste API Key here">
+      <div id="setup-loading" class="hidden"><small>Verifying & fetching models...</small></div>
+      <button id="save-key-btn" class="primary-btn">Save & Fetch Models</button>
+      <p class="small-text">Key is stored locally on your device.</p>
+      <div id="setup-error" class="error hidden"></div>
+    </div>
+
+    <!-- SETTINGS VIEW (Overlay) -->
+    <div id="settings-view" class="view hidden">
+      <h3>Settings</h3>
+      
+      <label for="settings-model-select">Model</label>
+      <select id="settings-model-select"></select>
+      
+      <label for="settings-key-input">API Key</label>
+      <input type="password" id="settings-key-input" placeholder="Update API Key">
+
+      <div class="actions-row">
+        <button id="refresh-models-btn" class="secondary-btn">Refresh Models</button>
+        <button id="save-settings-btn" class="primary-btn">Save</button>
+      </div>
+      <button id="cancel-settings-btn" class="text-btn">Cancel</button>
+      <div id="settings-status" class="status-msg"></div>
+    </div>
+
+    <!-- MAIN VIEW -->
+    <div id="main-view" class="view hidden">
+      <div class="info-bar">
+        <span id="current-model-display" class="badge">...</span>
+      </div>
+
+      <div class="actions">
+        <button id="summarize-btn" class="primary-btn">Summarize Page</button>
+      </div>
+      
+      <div id="loading" class="hidden">
+        <div class="spinner"></div>
+        <p>Analyzing content...</p>
+      </div>
+
+      <div id="result-section" class="hidden">
+        <h3>Summary</h3>
+        <div id="summary-content" class="markdown-body"></div>
+      </div>
+      
+      <div id="main-error" class="hidden error"></div>
+    </div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
