@@ -8,6 +8,9 @@ Summarize the current page using Google's Gemini API with a clean, glassy Safari
 - Store API key and model selection locally.
 - Glass-inspired UI with light/dark toggle.
 
+## Screenshot
+![Extension popup](screenshot.png)
+
 ## Requirements
 - macOS with Safari.
 - Xcode (for building the Safari Web Extension app).
