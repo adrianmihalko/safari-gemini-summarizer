@@ -5,7 +5,7 @@ const BASE_URL = "https://generativelanguage.googleapis.com/v1beta";
 // Listen for messages from the popup
 browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === "callGemini") {
-    summarizeText(request.text, request.apiKey, request.model)
+    summarizeText(request.text, request.apiKey, request.model, request.language, request.prompt)
       .then(summary => sendResponse({ success: true, data: summary }))
       .catch(error => sendResponse({ success: false, error: error.message }));
     return true; // Async response
@@ -42,18 +42,20 @@ async function fetchModels(apiKey) {
   }
 }
 
-async function summarizeText(text, apiKey, model) {
+async function summarizeText(text, apiKey, model, language, prompt) {
   // Default to a known stable model if none provided
   const modelId = model || "gemini-1.5-flash"; 
   const API_URL = `${BASE_URL}/models/${modelId}:generateContent?key=${apiKey}`;
 
   // Truncate text to avoid token limits (rough estimate)
   const truncatedText = text.substring(0, 30000); 
+  const languageInstruction = buildLanguageInstruction(language);
+  const promptText = normalizePrompt(prompt);
 
   const requestBody = {
     contents: [{
       parts: [{
-        text: `Please provide a concise summary of the following web page content using markdown formatting:\n\n${truncatedText}`
+        text: `${promptText} ${languageInstruction}\n\n${truncatedText}`
       }]
     }]
   };
@@ -87,6 +89,20 @@ async function summarizeText(text, apiKey, model) {
     console.error("Gemini API Error:", error);
     throw error;
   }
+}
+
+function buildLanguageInstruction(language) {
+  if (!language || language === 'auto') {
+    return 'Write the summary in the same language as the source content.';
+  }
+  return `Write the summary in ${language}.`;
+}
+
+function normalizePrompt(prompt) {
+  if (!prompt || !prompt.trim()) {
+    return 'Please provide a concise summary of the following web page content using markdown formatting.';
+  }
+  return prompt.trim();
 }
 
 async function readErrorMessage(response) {

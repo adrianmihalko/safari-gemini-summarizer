@@ -34,15 +34,23 @@
       
       <label for="settings-model-select">Model</label>
       <select id="settings-model-select"></select>
+
+      <label for="settings-language-select">Language</label>
+      <select id="settings-language-select"></select>
+
+      <label for="settings-prompt-select">Prompt Preset</label>
+      <select id="settings-prompt-select"></select>
+
+      <label for="settings-prompt-input">Prompt</label>
+      <textarea id="settings-prompt-input" rows="4" placeholder="Enter the summary prompt"></textarea>
+      <button id="reset-prompt-btn" class="secondary-btn" type="button">Reset Prompt to Default</button>
       
       <label for="settings-key-input">API Key</label>
       <input type="password" id="settings-key-input" placeholder="Update API Key">
 
       <div class="actions-row">
-        <button id="refresh-models-btn" class="secondary-btn">Refresh Models</button>
         <button id="save-settings-btn" class="primary-btn">Save</button>
       </div>
-      <button id="cancel-settings-btn" class="text-btn">Cancel</button>
       <div id="settings-status" class="status-msg"></div>
     </div>
 
@@ -50,6 +58,7 @@
     <div id="main-view" class="view hidden">
       <div class="info-bar">
         <span id="current-model-display" class="badge">...</span>
+        <span id="current-language-display" class="badge">...</span>
       </div>
 
       <div class="actions">
@@ -62,8 +71,11 @@
       </div>
 
       <div id="result-section" class="hidden">
-        <h3>Summary</h3>
-        <div id="summary-content" class="markdown-body"></div>
+        <div class="summary-box">
+          <button id="copy-summary-btn" class="clipboard-btn" type="button" title="Copy summary" aria-label="Copy summary"></button>
+          <div id="copy-status" class="status-msg hidden"></div>
+          <div id="summary-content" class="markdown-body"></div>
+        </div>
       </div>
       
       <div id="main-error" class="hidden error"></div>
